@@ -1,4 +1,9 @@
-Game.combat = {
+const config = require('./config')
+const map = require('./map_functions')
+const player = require('./player')
+const text = require('./text')
+
+const combat = {
 	enemy_ptr: null, // current enemy player is fighting
 	enemy_id: "",
 	enemy_max_hp: 0, // randomized at start of battle
@@ -12,6 +17,7 @@ Game.combat = {
 
 	// Check for random encounters at each step in player.move()
 	random_encounter: function() {
+		const Game = require('./game')
 		if (map.map_ptr.type === "world" || map.map_ptr.type === "dungeon") {
 			if (player.current_tile === 16 ||
 				player.current_tile === 20) {
@@ -42,6 +48,7 @@ Game.combat = {
 	},
 
 	random_enemy: function() {
+		const Game = require('./game')
 		var rand = Game.random_number(0, 4),
 		    enemy_list = [];
 
@@ -72,6 +79,7 @@ Game.combat = {
 	},
 
 	load_enemy: function(id) {
+		const Game = require('./game')
 		this.initiative_round = true;
 		this.enemy_ptr = config.enemies[id];
 		this.enemy_id = text.enemies[this.enemy_ptr.id];
@@ -98,6 +106,7 @@ Game.combat = {
 	// -------------------------------------------------------------------
 
 	draw_screen: function() {
+		const Game = require('./game')
 		Game.clear();
 		Game.context.fillStyle = "#FFFFFF";
 		Game.context.fillRect(0, 0, Game.canvas.width, Game.canvas.height);
@@ -107,6 +116,7 @@ Game.combat = {
 	// -------------------------------------------------------------------
 
 	initiative: function() {
+		const Game = require('./game')
 		var enemy_agility = this.enemy_ptr.agility,
 		    enemy_strength = this.enemy_ptr.strength,
 		    rand1 = Game.random_number(0, 255),
@@ -131,6 +141,7 @@ Game.combat = {
 	},
 
 	player_attack: function() {
+		const Game = require('./game')
 		var hit = false,
 		    damage = 0;
 
@@ -175,6 +186,7 @@ Game.combat = {
 	},
 
 	player_run: function() {
+		const Game = require('./game')
 		if (this.player_turn === true) {
 			var modifier = 0,
 			    rand1 = Game.random_number(0, 255),
@@ -210,10 +222,12 @@ Game.combat = {
 	},
 
 	player_died: function() {
+		const Game = require('./game')
 		Game.display_text(text.dead);
 	},
 
 	victory: function() {
+		const Game = require('./game')
 		var current_level = player.level;
 
 		Game.display_text(text.combat.victory.defeated, { enemy: this.enemy_id });
@@ -232,6 +246,7 @@ Game.combat = {
 	},
 
 	player_level_up: function() {
+		const Game = require('./game')
 		Game.display_text(text.combat.victory.next_level);
 		if (typeof config.levels[player.level - 1].spells_learned !== 'undefined') {
 			Game.display_text(text.combat.victory.gain_spell);
@@ -239,6 +254,7 @@ Game.combat = {
 	},
 
 	enemy_attack: function() {
+		const Game = require('./game')
 		var i,
 			special,
 			used_special = false,
@@ -321,3 +337,5 @@ Game.combat = {
 		this.player_turn = true;
 	}
 };
+
+module.exports = combat

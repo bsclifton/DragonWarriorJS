@@ -6,7 +6,14 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
 */
 
-Game = {
+const config = require('./config')
+const map = require('./map_functions')
+const player = require('./player')
+const text = require('./text')
+
+const Game = {
+	combat: require('./combat'),
+	script: require('./script'),
 	state: "",
 	possible_states: ["exploration", "combat"],
 	canvas: null,
@@ -166,8 +173,8 @@ Game = {
 	// -------------------------------------------------------------------
 
 	animate_npc: function(frame1, frame2, x, y) {
-		x = ((x-player.offset_x) * tile_width);
-		y = ((y-player.offset_y) * tile_height);
+		x = ((x-player.offset_x) * config.tile_width);
+		y = ((y-player.offset_y) * config.tile_height);
 
 		if ((Date.now() % 1000) < 500) {
 			this.draw_character(frame1, x, y);
@@ -178,11 +185,11 @@ Game = {
 
 	// call frame from characters.png - starts with frame 0
 	draw_character: function (frame_number, pos_x, pos_y) {
-		var image_x = (frame_number % 16) * tile_width,
-		    image_y = Math.floor(frame_number / 16) * tile_height;
+		var image_x = (frame_number % 16) * config.tile_width,
+		    image_y = Math.floor(frame_number / 16) * config.tile_height;
 
-		this.context.drawImage(this.img_characters, image_x, image_y, tile_width, tile_height,
-			pos_x, pos_y, tile_width, tile_height);
+		this.context.drawImage(this.img_characters, image_x, image_y, config.tile_width, config.tile_height,
+			pos_x, pos_y, config.tile_width, config.tile_height);
 	},
 
 	draw_npcs: function() {
@@ -326,10 +333,12 @@ Game = {
 	// draw single tile frame from sprite sheet
 	draw_tile: function (x, y, frame_number) {
 		// find horizontal and vertical position of tile to be drawn
-		var pos_x = (frame_number % 12) * tile_width,
-		    pos_y = Math.floor(frame_number / 12) * tile_height;
+		var pos_x = (frame_number % 12) * config.tile_width,
+		    pos_y = Math.floor(frame_number / 12) * config.tile_height;
 
-		this.context.drawImage(this.img_tiles, pos_x, pos_y, tile_width, tile_height,
-			x, y, tile_width, tile_height);
+		this.context.drawImage(this.img_tiles, pos_x, pos_y, config.tile_width, config.tile_height,
+			x, y, config.tile_width, config.tile_height);
 	}
 };
+
+module.exports = Game

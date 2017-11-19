@@ -1,4 +1,6 @@
-var config = {
+module.exports = {
+    tile_width: 32,
+    tile_height: 32,
     sprites: {
         characters: "assets/sprites/characters.png",
         enemies: "assets/sprites/monsters.png",

@@ -3,7 +3,9 @@ References
 ##########
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 */
-var map = {
+const config = require('./config')
+
+const map = {
 	vWidth: 25,
 	vHeight: 15,
 	x: 0,
@@ -43,6 +45,7 @@ var map = {
 	// 25 - 35 coastline
 
 	load_map: function (map_name) {
+		const player = require('./player')
 		if (map_name === "World") {
 			//reset door flags when leaving towns.
 			//TODO: don't reset all flags; some stay unlocked (e.g. throne room).
@@ -65,6 +68,7 @@ var map = {
 
 	// refresh status of doors/treasure chests
 	refresh_map: function () {
+		const player = require('./player')
 		var self = this;
 
 		if (typeof this.map_ptr.doors !== 'undefined') {
@@ -121,17 +125,18 @@ var map = {
 	},
 
 	draw_viewport: function (map_name, offset_x, offset_y) {
+		const Game = require('./game')
 		var i,
 			vWidth = 25,
 			vHeight = 15;
 
 		for (i=0; i<(vWidth * vHeight); i++) {
 			Game.draw_tile(this.x, this.y, this.map_ptr.layout[offset_x + (offset_y * this.map_ptr.width)] - 1);
-			this.x += tile_width;
+			this.x += config.tile_width;
 			offset_x++;
-			if (this.x === vWidth * tile_width) {
+			if (this.x === vWidth * config.tile_width) {
 				this.x = 0;
-				this.y += tile_height;
+				this.y += config.tile_height;
 				offset_y++;
 				offset_x -= vWidth;
 			}
@@ -141,10 +146,11 @@ var map = {
 	},
 
 	set_zone: function () {
+		const player = require('./player')
 		if (this.current_map === "World") {
 			// 16 tile square, break world into 8 x 8 grid
-			var x_coord = Math.floor(((player.x / tile_width) + (player.offset_x)) / 16),
-				y_coord = Math.floor(((player.y / tile_width) + (player.offset_y)) / 16),
+			var x_coord = Math.floor(((player.x / config.tile_width) + (player.offset_x)) / 16),
+				y_coord = Math.floor(((player.y / config.tile_width) + (player.offset_y)) / 16),
 			    zone_map = [
 					3,	3,	2,	2,	3,	5,	4,	5,
 					3,	2,	1,	2,	3,	3,	4,	5,
@@ -163,6 +169,7 @@ var map = {
 	},
 
 	check_location: function () {
+		const player = require('./player')
 		var keys = Object.keys(config.maps),
 		    key,
 		    map,
@@ -183,8 +190,8 @@ var map = {
 					if (player.steps === 0 ||
 						(typeof link.offset_x !== 'undefined' && player.offset_x !== link.offset_x) ||
 						(typeof link.offset_y !== 'undefined' && player.offset_y !== link.offset_y) ||
-						(typeof link.x !== 'undefined' && player.x !== (link.x * tile_width)) ||
-						(typeof link.y !== 'undefined' && player.y !== (link.y * tile_height)))
+						(typeof link.x !== 'undefined' && player.x !== (link.x * config.tile_width)) ||
+						(typeof link.y !== 'undefined' && player.y !== (link.y * config.tile_height)))
 					{
 						continue;
 					}
@@ -207,3 +214,5 @@ var map = {
 		}
 	}
 };
+
+module.exports = map

@@ -3,16 +3,20 @@ Most of the contents will be refactored and removed from here.
 The only thing that'll stay is the Game.begin() at the bottom.
 */
 
-var tile_width = 32,
-    tile_height = 32,
-    time = Date.now(),
-    delta_time = Date.now();
+const config = require('./config')
+const Game = require('./game')
+const map = require('./map_functions')
+const player = require('./player')
+const text = require('./text')
 
-function getId(id) {
+window.time = Date.now(),
+window.delta_time = Date.now();
+
+window.getId = function (id) {
 	return document.getElementById(id);
 }
 
-function add_option(name, value, list_id) {
+window.add_option = function (name, value, list_id) {
 	var option_to_add = document.createElement('option');
 	option_to_add.id = name;
 	option_to_add.text = name;
@@ -23,7 +27,7 @@ function add_option(name, value, list_id) {
 	}
 }
 
-function change_command_set() {
+window.change_command_set = function () {
 	if (Game.state === "exploration") {
 		getId('commands').innerHTML =
 			"<input type='button' id='talk' value='Talk'>" +
@@ -47,7 +51,7 @@ function change_command_set() {
 	}
 }
 
-function add_text(text) {
+window.add_text = function (text) {
 	setTimeout(function() {
 		getId('dialog').innerHTML += text + "\n";
 		getId('dialog').scrollTop = getId('dialog').scrollHeight;
@@ -55,7 +59,7 @@ function add_text(text) {
 }
 
 // display stats, equipment, commands, and other options (side bars)
-function display_output() {
+window.display_output = function () {
     getId('character_name').innerHTML = player.name;
     getId('level').innerHTML = player.level;
     getId('max_hp').innerHTML = player.max_hp;
@@ -72,8 +76,8 @@ function display_output() {
     getId('armor').innerHTML = text.armors[player.armor];
     getId('shield').innerHTML = text.shields[player.shield];
 
-    getId('output').innerHTML = "player.x / 32 = " + player.x / tile_width + "<br>" +
-        "player.y / 32 = " + player.y / tile_height + "<br>" +
+    getId('output').innerHTML = "player.x / 32 = " + player.x / config.tile_width + "<br>" +
+        "player.y / 32 = " + player.y / config.tile_height + "<br>" +
         "player.offset_x = " + player.offset_x + "<br>" +
         "player.offset_y = " + player.offset_y + "<br>" +
         "steps = " + player.steps + "<br>" +

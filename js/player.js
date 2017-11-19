@@ -1,4 +1,8 @@
-var player = {
+const config = require('./config')
+const map = require('./map_functions')
+const text = require('./text')
+
+const player = {
 	name: "",
 
 	// Map collision tiles
@@ -64,6 +68,7 @@ var player = {
 	// -------------------------------------------------------------------
 
 	animate_player: function(frame1, frame2) {
+		const Game = require('./game')
 		if ((Date.now() % 1000) < 500) {
 			Game.draw_character(frame1, this.x, this.y);
 		} else {
@@ -159,16 +164,16 @@ var player = {
 	},
 
 	set_xy: function(x, y) {
-		this.x = x * tile_width;
-		this.y = y * tile_height;
+		this.x = x * config.tile_width;
+		this.y = y * config.tile_height;
 	},
 
 	// Movement and collision
 	// -------------------------------------------------------------------
 
 	move: function (direction) {
-		var x = player.offset_x + (player.x / tile_width),
-			y = player.offset_y + (player.y / tile_height),
+		var x = player.offset_x + (player.x / config.tile_width),
+			y = player.offset_y + (player.y / config.tile_height),
 			prev_steps = this.steps;
 
 		this.set_current_tile();
@@ -180,10 +185,10 @@ var player = {
 				this.draw_player();
 				if (this.will_collide(x-1, y) === false) {
 					if (delta_time - time > this.movement) {
-						if (this.offset_x > 0 && this.x === 12 * tile_width) {
+						if (this.offset_x > 0 && this.x === 12 * config.tile_width) {
 							this.offset_x -= 1;
 						} else {
-							this.x -= tile_width;
+							this.x -= config.tile_width;
 						}
 						this.steps++;
 					}
@@ -194,10 +199,10 @@ var player = {
 				this.draw_player();
 				if (this.will_collide(x+1, y) === false) {
 					if (delta_time - time > this.movement) {
-						if (this.offset_x < map.boundary_right && this.x === 12 * tile_width) {
+						if (this.offset_x < map.boundary_right && this.x === 12 * config.tile_width) {
 							this.offset_x += 1;
 						} else {
-							this.x += tile_width;
+							this.x += config.tile_width;
 						}
 						this.steps++;
 					}
@@ -208,10 +213,10 @@ var player = {
 				this.draw_player();
 				if (this.will_collide(x, y-1) === false) {
 					if (delta_time - time > this.movement) {
-						if (this.offset_y > 0 && this.y === 6 * tile_height) {
+						if (this.offset_y > 0 && this.y === 6 * config.tile_height) {
 							this.offset_y -= 1;
 						} else {
-							this.y -= tile_height;
+							this.y -= config.tile_height;
 						}
 						this.steps++;
 					}
@@ -222,10 +227,10 @@ var player = {
 				this.draw_player();
 				if (this.will_collide(x, y+1) === false) {
 					if (delta_time - time > this.movement) {
-						if (this.offset_y < map.boundary_bottom && this.y === 6 * tile_height) {
+						if (this.offset_y < map.boundary_bottom && this.y === 6 * config.tile_height) {
 							this.offset_y += 1;
 						} else {
-							this.y += tile_height;
+							this.y += config.tile_height;
 						}
 						this.steps++;
 					}
@@ -234,6 +239,7 @@ var player = {
 		}
 
 		if (this.steps > prev_steps) {
+			const Game = require('./game')
 			if (Game.combat.random_encounter() === true) {
 				Game.change_state("combat");
 			}
@@ -242,8 +248,8 @@ var player = {
 	},
 
 	set_current_tile: function() {
-		this.current_tile = map.map_ptr.layout[(player.offset_x + (player.x / tile_width)) +
-				((player.offset_y + (player.y / tile_height)) * map.map_ptr.width)] - 1;
+		this.current_tile = map.map_ptr.layout[(player.offset_x + (player.x / config.tile_width)) +
+				((player.offset_y + (player.y / config.tile_height)) * map.map_ptr.width)] - 1;
 	},
 
 	will_collide: function (x, y) {
@@ -314,6 +320,7 @@ var player = {
 	},
 
 	set_spells: function() {
+		const Game = require('./game')
 		var self = this,
 		    spell;
 		Object.keys(this.spells).forEach(function (spellId) {
@@ -328,8 +335,8 @@ var player = {
 	// -------------------------------------------------------------------
 
 	door: function () {
-		var x = player.offset_x + (player.x / tile_width),
-			y = player.offset_y + (player.y / tile_height),
+		var x = player.offset_x + (player.x / config.tile_width),
+			y = player.offset_y + (player.y / config.tile_height),
 			door = null;
 
 		switch (this.character_state) {
@@ -347,8 +354,9 @@ var player = {
 	},
 
 	talk: function () {
-		var x = player.offset_x + (player.x / tile_width),
-			y = player.offset_y + (player.y / tile_height),
+		const Game = require('./game')
+		var x = player.offset_x + (player.x / config.tile_width),
+			y = player.offset_y + (player.y / config.tile_height),
 			character = null;
 
 		switch (this.character_state) {
@@ -359,6 +367,7 @@ var player = {
 		}
 
 		if (character !== null && typeof character.talk === 'function') {
+			const Game = require('./game')
 			character.talk(Game.script);
 		}
 	},
@@ -423,3 +432,5 @@ var player = {
 		}
 	}
 };
+
+module.exports = player

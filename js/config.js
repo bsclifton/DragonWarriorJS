@@ -2,9 +2,9 @@ module.exports = {
   tile_width: 32,
   tile_height: 32,
   sprites: {
-    characters: 'assets/sprites/characters.png',
+    characters: 'assets/sprites/characters-snes.png',
     enemies: 'assets/sprites/monsters.png',
-    tiles: 'assets/sprites/tiles.png'
+    tiles: 'assets/sprites/tiles-snes.png'
   },
   levels: [
     // TODO: needs to take this into account- http://www.gamefaqs.com/nes/563408-dragon-warrior/faqs/18342
@@ -90,25 +90,25 @@ module.exports = {
       show_in_combat: true,
       show_in_explore: true,
       cost: 4,
-      effect: function () { player.add_hp(Game.random_number(10, 17)) }
+      effect: function (game, player) { player.add_hp(game.random_number(10, 17)) }
     },
     hurt: {
       show_in_combat: true,
       show_in_explore: false,
       cost: 2,
-      effect: function () { Game.combat.enemy_current_hp -= Game.random_number(5, 12) }
+      effect: function (game, player) { game.combat.enemy_current_hp -= game.random_number(5, 12) }
     },
     sleep: {
       show_in_combat: true,
       show_in_explore: false,
       cost: 2,
-      effect: function () { Game.combat.enemy_status = 'sleep' }
+      effect: function (game, player) { game.combat.enemy_status = 'sleep' }
     },
     radiant: {
       show_in_combat: false,
       show_in_explore: true,
       cost: 3,
-      effect: function () {
+      effect: function (game, player) {
         player.visibility = 3
         player.radiant_in_effect = true
         player.radiant_step_counter = 200
@@ -118,37 +118,37 @@ module.exports = {
       show_in_combat: true,
       show_in_explore: false,
       cost: 2,
-      effect: function () { Game.combat.enemy_status = 'stopspell' }
+      effect: function (game, player) { game.combat.enemy_status = 'stopspell' }
     },
     outside: {
       show_in_combat: false,
       show_in_explore: true,
       cost: 6,
-      effect: function () { }
+      effect: function (game, player) { }
     },
     'return': {
       show_in_combat: false,
       show_in_explore: true,
       cost: 8,
-      effect: function () { }
+      effect: function (game, player) { }
     },
     repel: {
       show_in_combat: false,
       show_in_explore: true,
       cost: 2,
-      effect: function () { }
+      effect: function (game, player) { }
     },
     healmore: {
       show_in_combat: true,
       show_in_explore: true,
       cost: 10,
-      effect: function () { player.add_hp(Game.random_number(85, 100)) }
+      effect: function (game, player) { player.add_hp(game.random_number(85, 100)) }
     },
     hurtmore: {
       show_in_combat: true,
       show_in_explore: false,
       cost: 5,
-      effect: function () { Game.combat.enemy_current_hp -= Game.random_number(58, 65) }
+      effect: function (game, player) { game.combat.enemy_current_hp -= game.random_number(58, 65) }
     }
   },
   enemies: [
@@ -880,23 +880,24 @@ module.exports = {
     }
   ],
   maps: {
-        /* Map template
-            "Map Name": {
-                type: "world", "town" (no combat), or "dungeon"
-                zone: zone number for enemy set, dungeon type only
-                player_offset: player.offset_x/y starting point
-                player_start: player.x/y starting point
-                width: width of map in tiles
-                height: height of map in tiles
-                music: background music to be played on this map
-                layout: [
-                    array of tile numbers - actual map data
-                ]
-                npcs: [
-                    array of npcs - ["character type", "direction facing", x, y]
-                ]
-            }
-        */
+    /* Map template
+
+      "Map Name": {
+          type: "world", "town" (no combat), or "dungeon"
+          zone: zone number for enemy set, dungeon type only
+          player_offset: player.offset_x/y starting point
+          player_start: player.x/y starting point
+          width: width of map in tiles
+          height: height of map in tiles
+          music: background music to be played on this map
+          layout: [
+            array of tile numbers - actual map data
+          ]
+          npcs: [
+            array of npcs - ["character type", "direction facing", x, y]
+          ]
+      }
+    */
 
     'World': {
       type: 'world',
@@ -905,20 +906,20 @@ module.exports = {
       width: 128,
       height: 128,
       map_links: [
-                { offset_x: 35, offset_y: 41, map: 'Tantegel1F' },
-                { offset_x: 40, offset_y: 39, map: 'Brecconary' },
-                { offset_x: 96, offset_y: 8, map: 'Kol' },
-                { offset_x: 0, offset_y: 0, x: 6, y: 6, map: 'Garinham' },
-                { offset_x: 94, offset_y: 70, map: 'Rimuldar' },
-                { offset_x: 65, offset_y: 100, map: 'Cantlin' },
-                { offset_x: 17, offset_y: 87, map: 'Hauksness' },
-                { offset_x: 20, offset_y: 10, map: 'ErdricksCaveB1' },
-                { offset_x: 96, offset_y: 42, map: 'SwampCave' },
-                { offset_x: 96, offset_y: 47, map: 'SwampCave', set_offsets: [0, 17], set_xy: [9, 13] },
-                { offset_x: 21, offset_y: 55, map: 'MountainCaveB1' },
-                { offset_x: 40, offset_y: 46, map: 'CharlockCastle1F' },
-                { offset_x: 73, offset_y: 0, y: 5, map: 'NorthShrine' },
-                { offset_x: 100, offset_y: 107, map: 'SouthShrine' }
+        { offset_x: 35, offset_y: 41, map: 'Tantegel1F' },
+        { offset_x: 40, offset_y: 39, map: 'Brecconary' },
+        { offset_x: 96, offset_y: 8, map: 'Kol' },
+        { offset_x: 0, offset_y: 0, x: 6, y: 6, map: 'Garinham' },
+        { offset_x: 94, offset_y: 70, map: 'Rimuldar' },
+        { offset_x: 65, offset_y: 100, map: 'Cantlin' },
+        { offset_x: 17, offset_y: 87, map: 'Hauksness' },
+        { offset_x: 20, offset_y: 10, map: 'ErdricksCaveB1' },
+        { offset_x: 96, offset_y: 42, map: 'SwampCave' },
+        { offset_x: 96, offset_y: 47, map: 'SwampCave', set_offsets: [0, 17], set_xy: [9, 13] },
+        { offset_x: 21, offset_y: 55, map: 'MountainCaveB1' },
+        { offset_x: 40, offset_y: 46, map: 'CharlockCastle1F' },
+        { offset_x: 73, offset_y: 0, y: 5, map: 'NorthShrine' },
+        { offset_x: 100, offset_y: 107, map: 'SouthShrine' }
       ],
       music: 'overworld',
       layout: [
@@ -1060,11 +1061,11 @@ module.exports = {
       width: 55,
       height: 45,
       map_links: [
-                { offset_x: 29, map: 'World', set_offsets: [35, 41] },
-                { y: 5, map: 'World', set_offsets: [35, 41] },
-                { offset_y: 30, map: 'World', set_offsets: [35, 41] },
-                { offset_x: 6, offset_y: 7, map: 'Tantegel2F' },
-                { offset_x: 28, offset_y: 29, map: 'TantegelB1' }
+        { offset_x: 29, map: 'World', set_offsets: [35, 41] },
+        { y: 5, map: 'World', set_offsets: [35, 41] },
+        { offset_y: 30, map: 'World', set_offsets: [35, 41] },
+        { offset_x: 6, offset_y: 7, map: 'Tantegel2F' },
+        { offset_x: 28, offset_y: 29, map: 'TantegelB1' }
       ],
       music: 'tantegel',
       layout: [
@@ -1115,192 +1116,230 @@ module.exports = {
         15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
       ],
       doors: [
-                { id: 'tantegel_door1', x: 15, y: 19 },
-                { id: 'tantegel_door2', x: 29, y: 12 }
+        { id: 'tantegel_door1', x: 15, y: 19 },
+        { id: 'tantegel_door2', x: 29, y: 12 }
       ],
       chests: [
         { id: 'tantegel_chest1',
           x: 12,
           y: 19,
-          take: function () {
-            player.add_gold(Game.random_number(6, 13))
+          take: function (game, player) {
+            player.add_gold(game.random_number(6, 13))
           }},
         { id: 'tantegel_chest2',
           x: 13,
           y: 20,
-          take: function () {
-            player.add_gold(Game.random_number(6, 13))
+          take: function (game, player) {
+            player.add_gold(game.random_number(6, 13))
           }},
         { id: 'tantegel_chest3',
           x: 12,
           y: 21,
-          take: function () {
-            player.add_gold(Game.random_number(6, 13))
+          take: function (game, player) {
+            player.add_gold(game.random_number(6, 13))
           }},
         { id: 'tantegel_chest4',
           x: 14,
           y: 21,
-          take: function () {
-            player.add_gold(Game.random_number(6, 13))
+          take: function (game, player) {
+            player.add_gold(game.random_number(6, 13))
           }}
       ],
       npcs: [
-                // two by stairs
-        { type: 'soldier',
+        // two by stairs
+        {
+          type: 'soldier',
           facing: 'down',
           x: 19,
           y: 12,
           talk: function (script) {
             script.text('tantegel_soldier4')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'up',
           x: 19,
           y: 14,
           talk: function (script) {
             script.text('tantegel_soldier5')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 22,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_man1')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 19,
           y: 19,
           wanders: true,
           talk: function (script) {
-                    // TODO: conditional if player rescues princess
+            // TODO: conditional if player rescues princess
             script.text('tantegel_woman1')
-          }},
-                // guy by chest
-        { type: 'soldier',
+          }
+        },
+        // guy by chest
+        {
+          type: 'soldier',
           facing: 'down',
           x: 13,
           y: 18,
           talk: function (script) {
             script.text('tantegel_soldier6')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 13,
           y: 14,
           talk: function (script) {
             script.text('tantegel_man2')
-          }},
-                // guy by locked door towards top right
-        { type: 'soldier',
+          }
+        },
+        // guy by locked door towards top right
+        {
+          type: 'soldier',
           facing: 'down',
           x: 30,
           y: 8,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_soldier7')
-          }},
-                // wandering old man, other side of door
-        { type: 'old_man',
+          }
+        },
+        // wandering old man, other side of door
+        {
+          type: 'old_man',
           facing: 'down',
           x: 27,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('tantagel_old_man2')
-          } },
-                // guards by old man that gives you MP
-        { type: 'soldier',
+          }
+        },
+        // guards by old man that gives you MP
+        {
+          type: 'soldier',
           facing: 'right',
           x: 26,
           y: 26,
           talk: function (script) {
-                    // TODO: conditional if player rescues princess
+            // TODO: conditional if player rescues princess
             script.text('tantegel_soldier3')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 29,
           y: 24,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_soldier2')
-          }},
-                // guy that gives you MP
-        { type: 'old_man',
+          }
+        },
+        // guy that gives you MP
+        {
+          type: 'old_man',
           facing: 'left',
           x: 31,
           y: 32,
           talk: function (script) {
             script.text('tantagel_old_man1')
             player.current_mp = player.max_mp
-          }},
-                // front door guards
-        { type: 'soldier',
+          }
+        },
+        // front door guards
+        {
+          type: 'soldier',
           facing: 'right',
           x: 20,
           y: 33,
           talk: function (script) {
             script.text('tantegel_soldier1')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'left',
           x: 23,
           y: 33,
           talk: function (script) {
             script.text('tantegel_soldier1')
-          }},
-                // merchants near entrance
-        { type: 'merchant',
+          }
+        },
+        // merchants near entrance
+        {
+          type: 'merchant',
           facing: 'down',
           x: 17,
           y: 31,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_merchant2')
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'down',
           x: 15,
           y: 27,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_merchant1')
-          }},
-                // guy that sells keys
-                { type: 'merchant', facing: 'down', x: 35, y: 7 },
-        { type: 'soldier_2',
+          }
+        },
+        // guy that sells keys
+        { type: 'merchant', facing: 'down', x: 35, y: 7 },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 36,
           y: 15,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_soldier9')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 38,
           y: 11,
           talk: function (script) {
             script.text('tantegel_woman2')
-          }},
-                // by the barrier
-        { type: 'soldier',
+          }
+        },
+        // by the barrier
+        {
+          type: 'soldier',
           facing: 'up',
           x: 37,
           y: 21,
           talk: function (script) {
             script.text('tantegel_soldier8')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'up',
           x: 35,
           y: 27,
           wanders: true,
           talk: function (script) {
             script.text('tantegel_soldier10')
-          }}
+          }
+        }
       ]
     },
 
@@ -1311,7 +1350,7 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 16, y: 11, map: 'Tantegel1F', set_offsets: [6, 7] }
+        { x: 16, y: 11, map: 'Tantegel1F', set_offsets: [6, 7] }
       ],
       music: 'tantegel',
       layout: [
@@ -1335,52 +1374,64 @@ module.exports = {
                 { id: 'tantegel_throne_door1', x: 12, y: 10 }
       ],
       chests: [
-        { id: 'tantegel_throne_chest1',
+        {
+          id: 'tantegel_throne_chest1',
           x: 12,
           y: 7,
           take: function () {
             player.add_gold(120)
-          }},
-        { id: 'tantegel_throne_chest2',
+          }
+        },
+        {
+          id: 'tantegel_throne_chest2',
           x: 13,
           y: 7,
           take: function () {
             player.add_item('torch')
-          }},
-        { id: 'tantegel_throne_chest3',
+          }
+        },
+        {
+          id: 'tantegel_throne_chest3',
           x: 14,
           y: 4,
           take: function () {
             player.add_item('magic_key')
-          }}
+          }
+        }
       ],
       npcs: [
-        { type: 'king',
+        {
+          type: 'king',
           facing: 'down',
           x: 11,
           y: 6,
           talk: function (script) {
             script.text('tantegel_throne_king1')
-                    // TODO: proper menu
-          }},
-        { type: 'soldier',
+            // TODO: proper menu
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'right',
           x: 11,
           y: 9,
           talk: function (script) {
-                    // TODO: these are conditional
+            // TODO: these are conditional
             script.text('tantegel_throne_guard1')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'left',
           x: 13,
           y: 9,
           talk: function (script) {
-                    // TODO: these are conditional
+            // TODO: these are conditional
             script.text('tantegel_throne_guard2')
-          }},
-                { type: 'soldier', facing: 'down', x: 15, y: 7 },
-                { type: 'princess', facing: 'down', x: 14, y: 6 }
+          }
+        },
+        { type: 'soldier', facing: 'down', x: 15, y: 7 },
+        { type: 'princess', facing: 'down', x: 14, y: 6 }
       ]
     },
 
@@ -1391,7 +1442,7 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 7, y: 6, map: 'Tantegel1F', set_offsets: [28, 29] }
+        { x: 7, y: 6, map: 'Tantegel1F', set_offsets: [28, 29] }
       ],
       music: 'tantegel',
       layout: [
@@ -1412,14 +1463,16 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       npcs: [
-        { type: 'old_man',
+        {
+          type: 'old_man',
           facing: 'down',
           x: 11,
           y: 8,
           talk: function (script) {
-                    // TODO: conditional if you've already collected OR not collected OR not collected + have erdricks token
+            // TODO: conditional if you've already collected OR not collected OR not collected + have erdricks token
             script.text('tantegel_basement_old_man1')
-          }}
+          }
+        }
       ]
     },
 
@@ -1430,9 +1483,9 @@ module.exports = {
       width: 54,
       height: 44,
       map_links: [
-                { x: 11, map: 'World', set_offsets: [40, 39] },
-                { x: 13, map: 'World', set_offsets: [40, 39] },
-                { offset_y: 0, map: 'World', set_offsets: [40, 39] }
+        { x: 11, map: 'World', set_offsets: [40, 39] },
+        { x: 13, map: 'World', set_offsets: [40, 39] },
+        { offset_y: 0, map: 'World', set_offsets: [40, 39] }
       ],
       music: 'village',
       layout: [
@@ -1482,167 +1535,205 @@ module.exports = {
         15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
       ],
       doors: [
-                { id: 'brecconary_door1', x: 17, y: 30 },
-                { id: 'brecconary_door2', x: 33, y: 13 }
+        { id: 'brecconary_door1', x: 17, y: 30 },
+        { id: 'brecconary_door2', x: 33, y: 13 }
       ],
       npcs: [
-                // greeter
-        { type: 'townsman',
+        // greeter
+        {
+          type: 'townsman',
           facing: 'down',
           x: 13,
           y: 20,
           talk: function (script) {
             script.text('brecconary_man2')
-          }},
-                // inkeeper
-        { type: 'merchant',
+          }
+        },
+        // innkeeper
+        {
+          type: 'merchant',
           facing: 'left',
           x: 22,
           y: 28,
           talk: function (script) {
             script.text('innkeeper1')
-                    // TODO: menu
-          }},
-        { type: 'soldier',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'up',
           x: 22,
           y: 33,
           talk: function (script) {
             script.text('brecconary_soldier4')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 15,
           y: 33,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_soldier1')
-          }},
-                // armor/weapons store
-        { type: 'townswoman',
+          }
+        },
+        // armor/weapons store
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 16,
           y: 14,
           talk: function (script) {
             script.text('brecconary_woman1')
-          }},
-                { type: 'merchant', facing: 'down', x: 17, y: 11 },
-                // wandering people
-        { type: 'old_man',
+          }
+        },
+        { type: 'merchant', facing: 'down', x: 17, y: 11 },
+        // wandering people
+        {
+          type: 'old_man',
           facing: 'down',
           x: 23,
           y: 12,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_old_man1')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'up',
           x: 24,
           y: 28,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_soldier2')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 22,
           y: 21,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_man1')
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'down',
           x: 29,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('save_us')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 31,
           y: 26,
           wanders: true,
           talk: function (script) {
             script.text('erdrick_proof')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'up',
           x: 28,
           y: 32,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_woman2')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 36,
           y: 21,
           talk: function (script) {
             script.text('brecconary_soldier6')
-          }},
-                // item store
-        { type: 'merchant',
+          }
+        },
+        // item store
+        {
+          type: 'merchant',
           facing: 'left',
           x: 37,
           y: 32,
           wanders: true,
           talk: function (script) {
             script.text('item_store1')
-                    // TODO: menu
-          }},
-        { type: 'townsman',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'left',
           x: 32,
           y: 31,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_man3')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 37,
           y: 29,
           wanders: true,
           talk: function (script) {
             script.text('brecconary_man4')
-          }},
-                // "there are keys" guy and curse removing old man
-        { type: 'townsman',
+          }
+        },
+        // "there are keys" guy and curse removing old man
+        {
+          type: 'townsman',
           facing: 'down',
           x: 32,
           y: 17,
           talk: function (script) {
             script.text('brecconary_man5')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'down',
           x: 36,
           y: 17,
           talk: function (script) {
-                    // TODO: check for cursed item
+            // TODO: check for cursed item
             script.text('brecconary_old_man2')
-          }},
-                // guy in the corner
-        { type: 'soldier_2',
+          }
+        },
+        // guy in the corner
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 40,
           y: 8,
           talk: function (script) {
             script.text('brecconary_soldier5')
-          }},
-                // fairy water
-        { type: 'townswoman',
+          }
+        },
+        // fairy water
+        {
+          type: 'townswoman',
           facing: 'left',
           x: 36,
           y: 11,
           wanders: true,
           talk: function (script) {
             script.text('fairy_water1')
-                    // TODO: menu
-          }}
+            // TODO: menu
+          }
+        }
       ]
     },
 
@@ -1653,10 +1744,10 @@ module.exports = {
       width: 48,
       height: 38,
       map_links: [
-                { y: 9, map: 'World', set_offsets: [96, 8] },
-                { x: 11, map: 'World', set_offsets: [96, 8] },
-                { x: 13, map: 'World', set_offsets: [96, 8] },
-                { offset_y: 1, map: 'World', set_offsets: [96, 8] }
+        { y: 9, map: 'World', set_offsets: [96, 8] },
+        { x: 11, map: 'World', set_offsets: [96, 8] },
+        { x: 13, map: 'World', set_offsets: [96, 8] },
+        { offset_y: 1, map: 'World', set_offsets: [96, 8] }
       ],
       music: 'village',
       layout: [
@@ -1700,80 +1791,97 @@ module.exports = {
         16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16
       ],
       doors: [
-                { id: 'kol_door1', x: 13, y: 22 },
-                { id: 'kol_door2', x: 19, y: 20 }
+        { id: 'kol_door1', x: 13, y: 22 },
+        { id: 'kol_door2', x: 19, y: 20 }
       ],
       npcs: [
-                // entrance area / wandering people
-        { type: 'old_man',
+        // entrance area / wandering people
+        {
+          type: 'old_man',
           facing: 'down',
           x: 32,
           y: 27,
           wanders: true,
           talk: function (script) {
             script.text('kol_old_man3')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 23,
           y: 22,
           wanders: true,
           talk: function (script) {
             script.text('save_us')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'left',
           x: 32,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('kol_old_man4')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 32,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('kol_soldier3')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 25,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('kol_man1')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 23,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('kol_soldier2')
-          }},
-                // weapons
-                { type: 'merchant', facing: 'left', x: 34, y: 20 },
-                // by inn/spring
-        { type: 'townswoman',
+          }
+        },
+        // weapons
+        { type: 'merchant', facing: 'left', x: 34, y: 20 },
+        // by inn/spring
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 24,
           y: 9,
           talk: function (script) {
             script.text('kol_woman1')
-          }},
-                { type: 'merchant', facing: 'up', x: 31, y: 12 },
-                // behind door
-        { type: 'townsman',
+          }
+        },
+        { type: 'merchant', facing: 'up', x: 31, y: 12 },
+        // behind door
+        {
+          type: 'townsman',
           facing: 'right',
           x: 18,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('erdrick_proof')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'down',
           x: 14,
           y: 20,
@@ -1781,8 +1889,10 @@ module.exports = {
           talk: function (script) {
             script.text('kol_old_man1')
                     // TODO: yes/no menu
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'down',
           x: 18,
           y: 26,
@@ -1790,24 +1900,29 @@ module.exports = {
           talk: function (script) {
             script.text('kol_merchant1')
                     // TODO: yes/no menu
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 13,
           y: 31,
           talk: function (script) {
             script.text('kol_soldier1')
-          }},
-                { type: 'merchant', facing: 'left', x: 26, y: 29 },
-                // old man in booth at top left
-        { type: 'old_man',
+          }
+        },
+        { type: 'merchant', facing: 'left', x: 26, y: 29 },
+        // old man in booth at top left
+        {
+          type: 'old_man',
           facing: 'down',
           x: 13,
           y: 9,
           talk: function (script) {
-                    // TODO: conditional on armor
+            // TODO: conditional on armor
             script.text('kol_old_man2')
-          }}
+          }
+        }
       ]
     },
 
@@ -1818,11 +1933,11 @@ module.exports = {
       width: 44,
       height: 34,
       map_links: [
-                { x: 11, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
-                { x: 13, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
-                { y: 8, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
-                { offset_y: 0, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
-                { offset_x: 19, offset_y: 1, map: 'GarinhamsGraveB1' }
+        { x: 11, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
+        { x: 13, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
+        { y: 8, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
+        { offset_y: 0, map: 'World', set_offsets: [0, 0], set_xy: [6, 6] },
+        { offset_x: 19, offset_y: 1, map: 'GarinhamsGraveB1' }
       ],
       music: 'village',
       layout: [
@@ -1862,109 +1977,133 @@ module.exports = {
         15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
       ],
       doors: [
-                { id: 'garinham_door1', x: 16, y: 13 },
-                { id: 'garinham_door2', x: 29, y: 17 }
+        { id: 'garinham_door1', x: 16, y: 13 },
+        { id: 'garinham_door2', x: 29, y: 17 }
       ],
       npcs: [
-        { type: 'old_man',
+        {
+          type: 'old_man',
           facing: 'down',
           x: 14,
           y: 17,
           wanders: true,
           talk: function (script) {
             script.text('garinham_old_man1')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'right',
           x: 14,
           y: 24,
           talk: function (script) {
             script.text('garinham_old_man2')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'up',
           x: 19,
           y: 24,
           wanders: true,
           talk: function (script) {
             script.text('garinham_soldier1')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'right',
           x: 30,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('garinham_man1')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 24,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('garinham_woman1')
-          }},
-                // merchants
-                { type: 'merchant', facing: 'left', x: 17, y: 18 },
-                { type: 'merchant', facing: 'up', x: 22, y: 25 },
-                { type: 'merchant', facing: 'left', x: 29, y: 22 },
-                // behind the door
-        { type: 'townswoman',
+          }
+        },
+        // merchants
+        { type: 'merchant', facing: 'left', x: 17, y: 18 },
+        { type: 'merchant', facing: 'up', x: 22, y: 25 },
+        { type: 'merchant', facing: 'left', x: 29, y: 22 },
+        // behind the door
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 24,
           y: 11,
           wanders: true,
           talk: function (script) {
             script.text('garinham_woman2')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 22,
           y: 14,
           wanders: true,
           talk: function (script) {
             script.text('garinham_man2')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'down',
           x: 24,
           y: 15,
           wanders: true,
           talk: function (script) {
             script.text('garinham_old_man4')
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'down',
           x: 21,
           y: 13,
           talk: function (script) {
             script.text('garinham_merchant1')
-          }},
-                // behind door #2
-        { type: 'soldier',
+          }
+        },
+        // behind door #2
+        {
+          type: 'soldier',
           facing: 'right',
           x: 15,
           y: 12,
           talk: function (script) {
             script.text('garinham_soldier2')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'left',
           x: 17,
           y: 12,
           talk: function (script) {
             script.text('garinham_soldier2')
-          }},
-                // by stairs down to grave
-        { type: 'old_man',
+          }
+        },
+        // by stairs down to grave
+        {
+          type: 'old_man',
           facing: 'down',
           x: 26,
           y: 8,
           wanders: true,
           talk: function (script) {
             script.text('garinham_old_man3')
-          }}
+          }
+        }
       ]
     },
 
@@ -1975,10 +2114,10 @@ module.exports = {
       width: 54,
       height: 44,
       map_links: [
-                { x: 14, map: 'World', set_offsets: [94, 70] },
-                { offset_x: 0, map: 'World', set_offsets: [94, 70] },
-                { offset_y: 0, map: 'World', set_offsets: [94, 70] },
-                { y: 7, map: 'World', set_offsets: [94, 70] }
+        { x: 14, map: 'World', set_offsets: [94, 70] },
+        { offset_x: 0, map: 'World', set_offsets: [94, 70] },
+        { offset_y: 0, map: 'World', set_offsets: [94, 70] },
+        { y: 7, map: 'World', set_offsets: [94, 70] }
       ],
       music: 'village',
       layout: [
@@ -2028,46 +2167,55 @@ module.exports = {
         15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15
       ],
       doors: [
-                { id: 'rimuldar_door1', x: 34, y: 28 },
-                { id: 'rimuldar_door2', x: 35, y: 30 }
+        { id: 'rimuldar_door1', x: 34, y: 28 },
+        { id: 'rimuldar_door2', x: 35, y: 30 }
       ],
       npcs: [
-                // by weapons store
-                { type: 'merchant', facing: 'down', x: 36, y: 14 },
-        { type: 'soldier_2',
+        // by weapons store
+        { type: 'merchant', facing: 'down', x: 36, y: 14 },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 36,
           y: 18,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_soldier1')
-          }},
-                // wandering, middle of town
-        { type: 'townswoman',
+          }
+        },
+        // wandering, middle of town
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 35,
           y: 21,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_woman2')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 27,
           y: 18,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_man1')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'up',
           x: 22,
           y: 23,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_soldier4')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 30,
           y: 32,
@@ -2075,111 +2223,138 @@ module.exports = {
           talk: function (script) {
                     // TODO: conditional on having fighters ring, I think?
             script.text('rimuldar_soldier3')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'left',
           x: 19,
           y: 20,
           talk: function (script) {
             script.text('rimuldar_old_man2')
-          }},
-                // inn
-                { type: 'merchant', facing: 'right', x: 29, y: 25 },
-        { type: 'soldier_2',
+          }
+        },
+        // inn
+        { type: 'merchant', facing: 'right', x: 29, y: 25 },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 37,
           y: 26,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_soldier2')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'down',
           x: 33,
           y: 30,
           talk: function (script) {
             script.text('rimuldar_old_man1')
-          }},
-                // two isolated people
-        { type: 'townswoman',
+          }
+        },
+        // two isolated people
+        {
+          type: 'townswoman',
           facing: 'up',
           x: 28,
           y: 15,
           talk: function (script) {
             script.text('rimuldar_woman1')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'up',
           x: 24,
           y: 15,
           wanders: true,
           talk: function (script) {
             script.text('erdrick_proof')
-          }},
-                // shed
-        { type: 'townswoman',
+          }
+        },
+        // shed
+        {
+          type: 'townswoman',
           facing: 'right',
           x: 16,
           y: 27,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_woman3')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'right',
           x: 16,
           y: 30,
           talk: function (script) {
             script.text('rimuldar_old_man3')
                     // TODO: menu
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 22,
           y: 27,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_man2')
-          }},
-        { type: 'soldier_2',
+          }
+        },
+        {
+          type: 'soldier_2',
           facing: 'down',
           x: 22,
           y: 31,
           wanders: true,
           talk: function (script) {
             script.text('rimuldar_soldier5')
-          }},
-                // key sales
-        { type: 'merchant',
+          }
+        },
+        // key sales
+        {
+          type: 'merchant',
           facing: 'up',
           x: 15,
           y: 11,
           talk: function (script) {
             script.text('rimuldar_merchant1')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'up',
           x: 17,
           y: 14,
           talk: function (script) {
             script.text('key_sales1')
-                    // TODO: menu
-          }},
-                // hiding girl and her boyfriend
-        { type: 'townswoman',
+            // TODO: menu
+          }
+        },
+        // hiding girl and her boyfriend
+        {
+          type: 'townswoman',
           facing: 'down',
           x: 13,
           y: 33,
           talk: function (script) {
             script.text('rimuldar_woman4')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'down',
           x: 40,
           y: 7,
           talk: function (script) {
             script.text('rimuldar_man3')
-          }}
+          }
+        }
       ]
     },
 
@@ -2190,10 +2365,10 @@ module.exports = {
       width: 54,
       height: 44,
       map_links: [
-                { y: 5, map: 'World', set_offsets: [65, 100] },
-                { offset_y: 29, map: 'World', set_offsets: [65, 100] },
-                { x: 11, map: 'World', set_offsets: [65, 100] },
-                { offset_x: 28, map: 'World', set_offsets: [65, 100] }
+        { y: 5, map: 'World', set_offsets: [65, 100] },
+        { offset_y: 29, map: 'World', set_offsets: [65, 100] },
+        { x: 11, map: 'World', set_offsets: [65, 100] },
+        { offset_x: 28, map: 'World', set_offsets: [65, 100] }
       ],
       music: 'village',
       layout: [
@@ -2243,181 +2418,220 @@ module.exports = {
         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
       ],
       doors: [
-                { id: 'cantlin_door1', x: 15, y: 26 },
-                { id: 'cantlin_door2', x: 19, y: 30 },
-                { id: 'cantlin_door3', x: 25, y: 30 },
-                { id: 'cantlin_door4', x: 26, y: 30 },
-                { id: 'cantlin_door5', x: 37, y: 14 }
+        { id: 'cantlin_door1', x: 15, y: 26 },
+        { id: 'cantlin_door2', x: 19, y: 30 },
+        { id: 'cantlin_door3', x: 25, y: 30 },
+        { id: 'cantlin_door4', x: 26, y: 30 },
+        { id: 'cantlin_door5', x: 37, y: 14 }
       ],
       npcs: [
-                // weapons store
-        { type: 'merchant',
+        // weapons store
+        {
+          type: 'merchant',
           facing: 'down',
           x: 33,
           y: 10,
           wandering: true,
           talk: function (script) {
-                    // TODO: menu
-          }},
-        { type: 'soldier',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 26,
           y: 11,
           wanders: true,
           talk: function (script) {
             script.text('cantlin_soldier1')
-          }},
-        { type: 'soldier',
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'down',
           x: 33,
           y: 14,
           wanders: true,
           talk: function (script) {
             script.text('cantlin_soldier2')
-          }},
-                // inn
-        { type: 'merchant',
+          }
+        },
+        // inn
+        {
+          type: 'merchant',
           facing: 'down',
           x: 19,
           y: 8,
           talk: function (script) {
             script.text('innkeeper1')
-                    // TODO: menu
+            // TODO: menu
           }},
-                // shops left of inn
-        { type: 'soldier',
+        // shops left of inn
+        {
+          type: 'soldier',
           facing: 'down',
           x: 16,
           y: 11,
           wanders: true,
           talk: function (script) {
             script.text('cantlin_soldier3')
-                    // TODO: yes/no menu
-                    // if yes: cantlin_soldier4
-                    // if no: cantlin_soldier5
-          }},
-        { type: 'townsman',
+            // TODO: yes/no menu
+            // if yes: cantlin_soldier4
+            // if no: cantlin_soldier5
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'right',
           x: 13,
           y: 12,
           talk: function (script) {
             script.text('item_store1')
-                    // TODO: menu
-          }},
-        { type: 'merchant',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'right',
           x: 13,
           y: 17,
           talk: function (script) {
             script.text('cantlin_merchant2')
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'left',
           x: 18,
           y: 17,
           talk: function (script) {
             script.text('item_store1')
-                    // TODO: menu
-          }},
-        { type: 'townswoman',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'right',
           x: 15,
           y: 18,
           wanders: true,
           talk: function (script) {
             script.text('cantlin_woman1')
-          }},
-        { type: 'townswoman',
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'left',
           x: 21,
           y: 20,
           wanders: true,
           talk: function (script) {
             script.text('cantlin_woman2')
-          }},
-                // locked store area on right
-        { type: 'old_man',
+          }
+        },
+        // locked store area on right
+        {
+          type: 'old_man',
           facing: 'down',
           x: 38,
           y: 11,
           talk: function (script) {
             script.text('key_sales1')
-                    // TODO: menu
-          }},
-        { type: 'soldier',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'soldier',
           facing: 'right',
           x: 35,
           y: 17,
           talk: function (script) {
             script.text('weapons_armor1')
-                    // TODO: menu
-          }},
-        { type: 'townswoman',
+            // TODO: menu
+          }
+        },
+        {
+          type: 'townswoman',
           facing: 'left',
           x: 33,
           y: 18,
           talk: function (script) {
             script.text('fairy_water1')
-                    // TODO: menu
-          }},
-                // below locked store area
-        { type: 'merchant',
+            // TODO: menu
+          }
+        },
+        // below locked store area
+        {
+          type: 'merchant',
           facing: 'right',
           x: 35,
           y: 20,
           wandering: true,
           talk: function (script) {
             script.text('cantlin_merchant1')
-          }},
-        { type: 'townsman',
+          }
+        },
+        {
+          type: 'townsman',
           facing: 'right',
           x: 30,
           y: 20,
           wandering: true,
           talk: function (script) {
             script.text('cantlin_man1')
-          }},
-                // bottom right shops
-        { type: 'old_man',
+          }
+        },
+        // bottom right shops
+        {
+          type: 'old_man',
           facing: 'down',
           x: 33,
           y: 27,
           talk: function (script) {
             script.text('cantlin_old_man1')
-          }},
-        { type: 'merchant',
+          }
+        },
+        {
+          type: 'merchant',
           facing: 'left',
           x: 38,
           y: 31,
           talk: function (script) {
             script.text('weapons_armor1')
-                    // TODO: menu
-          }},
-                // middle shed area
-        { type: 'old_man',
+            // TODO: menu
+          }
+        },
+        // middle shed area
+        {
+          type: 'old_man',
           facing: 'down',
           x: 26,
           y: 21,
           talk: function (script) {
             script.text('cantlin_old_man2')
-          }},
-        { type: 'old_man',
+          }
+        },
+        {
+          type: 'old_man',
           facing: 'down',
           x: 26,
           y: 33,
           wandering: true,
           talk: function (script) {
             script.text('cantlin_old_man3')
-          }},
-                // bottom left merchant
-        { type: 'merchant',
+          }
+        },
+        // bottom left merchant
+        {
+          type: 'merchant',
           facing: 'right',
           x: 15,
           y: 31,
           wandering: true,
           talk: function (script) {
             script.text('cantlin_merchant3')
-          }}
+          }
+        }
       ]
     },
 
@@ -2429,10 +2643,10 @@ module.exports = {
       width: 44,
       height: 34,
       map_links: [
-                { x: 11, map: 'World', set_offsets: [17, 87] },
-                { x: 13, map: 'World', set_offsets: [17, 87] },
-                { y: 5, map: 'World', set_offsets: [17, 87] },
-                { y: 7, map: 'World', set_offsets: [17, 87] }
+        { x: 11, map: 'World', set_offsets: [17, 87] },
+        { x: 13, map: 'World', set_offsets: [17, 87] },
+        { y: 5, map: 'World', set_offsets: [17, 87] },
+        { y: 7, map: 'World', set_offsets: [17, 87] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2480,8 +2694,8 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 6, y: 2, map: 'World', set_offsets: [20, 10] },
-                { x: 15, y: 11, map: 'ErdricksCaveB2', set_xy: [14, 11] }
+        { x: 6, y: 2, map: 'World', set_offsets: [20, 10] },
+        { x: 15, y: 11, map: 'ErdricksCaveB2', set_xy: [14, 11] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2510,7 +2724,7 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 14, y: 11, map: 'ErdricksCaveB1', set_xy: [15, 11] }
+        { x: 14, y: 11, map: 'ErdricksCaveB1', set_xy: [15, 11] }
       ],
       music: 'dungeon2',
       layout: [
@@ -2540,8 +2754,8 @@ module.exports = {
       width: 25,
       height: 32,
       map_links: [
-                { x: 9, y: 1, map: 'World', set_offsets: [96, 42] },
-                { offset_y: 17, x: 9, y: 13, map: 'World', set_offsets: [96, 47] }
+        { x: 9, y: 1, map: 'World', set_offsets: [96, 42] },
+        { offset_y: 17, x: 9, y: 13, map: 'World', set_offsets: [96, 47] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2579,7 +2793,7 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       doors: [
-                { id: 'swamp_cave_door1', x: 14, y: 21 }
+        { id: 'swamp_cave_door1', x: 14, y: 21 }
       ],
       npcs: [
       ]
@@ -2593,8 +2807,8 @@ module.exports = {
       width: 25,
       height: 22,
       map_links: [
-                { offset_y: 6, x: 8, map: 'Garinham', set_offsets: [19, 1] },
-                { offset_y: 7, x: 3, y: 12, map: 'GarinhamsGraveB2' }
+        { offset_y: 6, x: 8, map: 'Garinham', set_offsets: [19, 1] },
+        { offset_y: 7, x: 3, y: 12, map: 'GarinhamsGraveB2' }
       ],
       music: 'dungeon1',
       layout: [
@@ -2622,7 +2836,7 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       doors: [
-                { id: 'grave_b1_door1', x: 19, y: 18 }
+        { id: 'grave_b1_door1', x: 19, y: 18 }
       ]
     },
 
@@ -2634,12 +2848,12 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 16, y: 3, map: 'GarinhamsGraveB1', set_offsets: [0, 7], set_xy: [3, 12] },
-                { x: 17, y: 2, map: 'GarinhamsGraveB3' },
-                { x: 6, y: 2, map: 'GarinhamsGraveB3', set_xy: [16, 2] },
-                { x: 6, y: 11, map: 'GarinhamsGraveB3', set_offsets: [0, 7], set_xy: [4, 11] },
-                { x: 17, y: 11, map: 'GarinhamsGraveB3', set_offsets: [0, 7], set_xy: [20, 7] },
-                { x: 10, y: 7, map: 'GarinhamsGraveB3', set_offsets: [0, 6], set_xy: [8, 6] }
+        { x: 16, y: 3, map: 'GarinhamsGraveB1', set_offsets: [0, 7], set_xy: [3, 12] },
+        { x: 17, y: 2, map: 'GarinhamsGraveB3' },
+        { x: 6, y: 2, map: 'GarinhamsGraveB3', set_xy: [16, 2] },
+        { x: 6, y: 11, map: 'GarinhamsGraveB3', set_offsets: [0, 7], set_xy: [4, 11] },
+        { x: 17, y: 11, map: 'GarinhamsGraveB3', set_offsets: [0, 7], set_xy: [20, 7] },
+        { x: 10, y: 7, map: 'GarinhamsGraveB3', set_offsets: [0, 6], set_xy: [8, 6] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2669,13 +2883,13 @@ module.exports = {
       width: 25,
       height: 22,
       map_links: [
-                { x: 20, y: 2, map: 'GarinhamsGraveB2', set_xy: [17, 2] },
-                { x: 16, y: 2, map: 'GarinhamsGraveB2', set_xy: [6, 2] },
-                { offset_y: 0, x: 11, y: 6, map: 'GarinhamsGraveB4' },
-                { offset_y: 4, x: 12, y: 6, map: 'GarinhamsGraveB4', set_xy: [12, 7] },
-                { offset_y: 6, x: 8, map: 'GarinhamsGraveB2', set_xy: [10, 7] },
-                { offset_y: 7, x: 4, y: 11, map: 'GarinhamsGraveB2', set_xy: [6, 11] },
-                { offset_y: 7, x: 20, y: 7, map: 'GarinhamsGraveB2', set_xy: [17, 11] }
+        { x: 20, y: 2, map: 'GarinhamsGraveB2', set_xy: [17, 2] },
+        { x: 16, y: 2, map: 'GarinhamsGraveB2', set_xy: [6, 2] },
+        { offset_y: 0, x: 11, y: 6, map: 'GarinhamsGraveB4' },
+        { offset_y: 4, x: 12, y: 6, map: 'GarinhamsGraveB4', set_xy: [12, 7] },
+        { offset_y: 6, x: 8, map: 'GarinhamsGraveB2', set_xy: [10, 7] },
+        { offset_y: 7, x: 4, y: 11, map: 'GarinhamsGraveB2', set_xy: [6, 11] },
+        { offset_y: 7, x: 20, y: 7, map: 'GarinhamsGraveB2', set_xy: [17, 11] }
       ],
       music: 'dungeon3',
       layout: [
@@ -2712,8 +2926,8 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 7, y: 7, map: 'GarinhamsGraveB3', set_xy: [11, 6] },
-                { x: 12, y: 7, map: 'GarinhamsGraveB3', set_offsets: [0, 4], set_xy: [12, 6] }
+        { x: 7, y: 7, map: 'GarinhamsGraveB3', set_xy: [11, 6] },
+        { x: 12, y: 7, map: 'GarinhamsGraveB3', set_offsets: [0, 4], set_xy: [12, 6] }
       ],
       music: 'dungeon4',
       layout: [
@@ -2743,10 +2957,10 @@ module.exports = {
       width: 25,
       height: 16,
       map_links: [
-                { offset_y: 1, x: 6, y: 7, map: 'World', set_offsets: [21, 55] },
-                { x: 6, y: 1, map: 'MountainCaveB2' },
-                { offset_y: 0, x: 12, y: 6, map: 'MountainCaveB2', set_xy: [12, 6] },
-                { x: 18, y: 12, map: 'MountainCaveB2', set_offsets: [0, 1], set_xy: [18, 12] }
+        { offset_y: 1, x: 6, y: 7, map: 'World', set_offsets: [21, 55] },
+        { x: 6, y: 1, map: 'MountainCaveB2' },
+        { offset_y: 0, x: 12, y: 6, map: 'MountainCaveB2', set_xy: [12, 6] },
+        { x: 18, y: 12, map: 'MountainCaveB2', set_offsets: [0, 1], set_xy: [18, 12] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2777,9 +2991,9 @@ module.exports = {
       width: 25,
       height: 16,
       map_links: [
-                { x: 6, y: 1, map: 'MountainCaveB1', set_offsets: [0, 0], set_xy: [6, 1] },
-                { offset_y: 0, x: 12, y: 6, map: 'MountainCaveB1', set_offsets: [0, 0], set_xy: [12, 6] },
-                { x: 18, y: 12, map: 'MountainCaveB1', set_xy: [18, 12] }
+        { x: 6, y: 1, map: 'MountainCaveB1', set_offsets: [0, 0], set_xy: [6, 1] },
+        { offset_y: 0, x: 12, y: 6, map: 'MountainCaveB1', set_offsets: [0, 0], set_xy: [12, 6] },
+        { x: 18, y: 12, map: 'MountainCaveB1', set_xy: [18, 12] }
       ],
       music: 'dungeon2',
       layout: [
@@ -2810,10 +3024,10 @@ module.exports = {
       width: 25,
       height: 26,
       map_links: [
-                { x: 13, y: 4, map: 'CharlockCastleB1' },
-                { x: 7, y: 6, offset_y: 11, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [11, 7] },
-                { x: 18, y: 6, offset_y: 11, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [20, 9] },
-                { y: 12, map: 'World', set_offsets: [40, 46] }
+        { x: 13, y: 4, map: 'CharlockCastleB1' },
+        { x: 7, y: 6, offset_y: 11, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [11, 7] },
+        { x: 18, y: 6, offset_y: 11, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [20, 9] },
+        { y: 12, map: 'World', set_offsets: [40, 46] }
       ],
       music: 'dungeon1',
       layout: [
@@ -2845,8 +3059,8 @@ module.exports = {
         22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22
       ],
       doors: [
-                { id: 'charlock_1f_door1', x: 7, y: 11 },
-                { id: 'charlock_1f_door2', x: 18, y: 11 }
+        { id: 'charlock_1f_door1', x: 7, y: 11 },
+        { id: 'charlock_1f_door2', x: 18, y: 11 }
       ]
     },
 
@@ -2858,16 +3072,16 @@ module.exports = {
       width: 25,
       height: 22,
       map_links: [
-                { x: 12, y: 1, map: 'CharlockCastle1F', set_offsets: [0, 0], set_xy: [13, 4] },
-                { x: 11, y: 7, offset_y: 7, map: 'CharlockCastle1F', set_offsets: [0, 11], set_xy: [7, 6] },
-                { x: 20, y: 9, offset_y: 7, map: 'CharlockCastle1F', set_offsets: [0, 11], set_xy: [18, 6] },
-                { x: 18, y: 1, map: 'CharlockCastleB2', set_xy: [15, 2] },
-                { x: 5, y: 5, map: 'CharlockCastleB2', set_xy: [7, 2] },
-                { x: 16, offset_y: 2, map: 'CharlockCastleB2', set_xy: [11, 6] },
-                { x: 22, offset_y: 2, map: 'CharlockCastleB2', set_xy: [16, 10] },
-                { x: 17, offset_y: 4, map: 'CharlockCastleB2', set_xy: [15, 11] },
-                { x: 5, y: 8, map: 'CharlockCastleB2', set_xy: [7, 3] },
-                { x: 11, y: 13, map: 'CharlockCastleB2', set_xy: [12, 2] }
+        { x: 12, y: 1, map: 'CharlockCastle1F', set_offsets: [0, 0], set_xy: [13, 4] },
+        { x: 11, y: 7, offset_y: 7, map: 'CharlockCastle1F', set_offsets: [0, 11], set_xy: [7, 6] },
+        { x: 20, y: 9, offset_y: 7, map: 'CharlockCastle1F', set_offsets: [0, 11], set_xy: [18, 6] },
+        { x: 18, y: 1, map: 'CharlockCastleB2', set_xy: [15, 2] },
+        { x: 5, y: 5, map: 'CharlockCastleB2', set_xy: [7, 2] },
+        { x: 16, offset_y: 2, map: 'CharlockCastleB2', set_xy: [11, 6] },
+        { x: 22, offset_y: 2, map: 'CharlockCastleB2', set_xy: [16, 10] },
+        { x: 17, offset_y: 4, map: 'CharlockCastleB2', set_xy: [15, 11] },
+        { x: 5, y: 8, map: 'CharlockCastleB2', set_xy: [7, 3] },
+        { x: 11, y: 13, map: 'CharlockCastleB2', set_xy: [12, 2] }
       ],
       music: 'dungeon2',
       layout: [
@@ -2904,17 +3118,17 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 15, y: 2, map: 'CharlockCastleB1', set_xy: [18, 1] },
-                { x: 7, y: 2, map: 'CharlockCastleB1', set_xy: [5, 5] },
-                { x: 11, y: 6, map: 'CharlockCastleB1', set_offsets: [0, 2], set_xy: [16, 6] },
-                { x: 16, y: 10, map: 'CharlockCastleB1', set_offsets: [0, 2], set_xy: [22, 6] },
-                { x: 15, y: 11, map: 'CharlockCastleB1', set_offsets: [0, 4], set_xy: [17, 6] },
-                { x: 7, y: 3, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [5, 8] },
-                { x: 12, y: 2, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [11, 13] },
-                { x: 16, y: 3, map: 'CharlockCastleB3', set_xy: [9, 4] },
-                { x: 10, y: 2, map: 'CharlockCastleB3', set_xy: [14, 2] },
-                { x: 7, y: 10, map: 'CharlockCastleB3', set_xy: [12, 6] },
-                { x: 8, y: 11, map: 'CharlockCastleB3', set_xy: [7, 11] }
+        { x: 15, y: 2, map: 'CharlockCastleB1', set_xy: [18, 1] },
+        { x: 7, y: 2, map: 'CharlockCastleB1', set_xy: [5, 5] },
+        { x: 11, y: 6, map: 'CharlockCastleB1', set_offsets: [0, 2], set_xy: [16, 6] },
+        { x: 16, y: 10, map: 'CharlockCastleB1', set_offsets: [0, 2], set_xy: [22, 6] },
+        { x: 15, y: 11, map: 'CharlockCastleB1', set_offsets: [0, 4], set_xy: [17, 6] },
+        { x: 7, y: 3, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [5, 8] },
+        { x: 12, y: 2, map: 'CharlockCastleB1', set_offsets: [0, 7], set_xy: [11, 13] },
+        { x: 16, y: 3, map: 'CharlockCastleB3', set_xy: [9, 4] },
+        { x: 10, y: 2, map: 'CharlockCastleB3', set_xy: [14, 2] },
+        { x: 7, y: 10, map: 'CharlockCastleB3', set_xy: [12, 6] },
+        { x: 8, y: 11, map: 'CharlockCastleB3', set_xy: [7, 11] }
       ],
       music: 'dungeon3',
       layout: [
@@ -2935,12 +3149,14 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       chests: [
-        { id: 'charlock_b2_chest1',
+        {
+          id: 'charlock_b2_chest1',
           x: 12,
           y: 7,
           take: function () {
             player.add_item('erdricks_sword')
-          }}
+          }
+        }
       ]
     },
 
@@ -2952,12 +3168,12 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 9, y: 4, map: 'CharlockCastleB2', set_xy: [16, 3] },
-                { x: 14, y: 2, map: 'CharlockCastleB2', set_xy: [10, 2] },
-                { x: 12, y: 6, map: 'CharlockCastleB2', set_xy: [7, 10] },
-                { x: 7, y: 11, map: 'CharlockCastleB2', set_xy: [8, 11] },
-                { x: 8, y: 8, map: 'CharlockCastleB4', set_xy: [7, 11] },
-                { x: 14, y: 9, map: 'CharlockCastleB4', set_xy: [14, 9] }
+        { x: 9, y: 4, map: 'CharlockCastleB2', set_xy: [16, 3] },
+        { x: 14, y: 2, map: 'CharlockCastleB2', set_xy: [10, 2] },
+        { x: 12, y: 6, map: 'CharlockCastleB2', set_xy: [7, 10] },
+        { x: 7, y: 11, map: 'CharlockCastleB2', set_xy: [8, 11] },
+        { x: 8, y: 8, map: 'CharlockCastleB4', set_xy: [7, 11] },
+        { x: 14, y: 9, map: 'CharlockCastleB4', set_xy: [14, 9] }
       ],
       music: 'dungeon4',
       layout: [
@@ -2987,10 +3203,10 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 7, y: 11, map: 'CharlockCastleB3', set_xy: [8, 8] },
-                { x: 14, y: 9, map: 'CharlockCastleB3', set_xy: [14, 9] },
-                { x: 9, y: 4, map: 'CharlockCastleB5', set_xy: [16, 2] },
-                { x: 15, y: 3, map: 'CharlockCastleB5', set_xy: [11, 2] }
+        { x: 7, y: 11, map: 'CharlockCastleB3', set_xy: [8, 8] },
+        { x: 14, y: 9, map: 'CharlockCastleB3', set_xy: [14, 9] },
+        { x: 9, y: 4, map: 'CharlockCastleB5', set_xy: [16, 2] },
+        { x: 15, y: 3, map: 'CharlockCastleB5', set_xy: [11, 2] }
       ],
       music: 'dungeon5',
       layout: [
@@ -3020,10 +3236,10 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 16, y: 2, map: 'CharlockCastleB4', set_xy: [9, 4] },
-                { x: 11, y: 2, map: 'CharlockCastleB4', set_xy: [15, 3] },
-                { x: 12, y: 7, map: 'CharlockCastleB6', set_xy: [7, 2] },
-                { x: 7, y: 2, map: 'CharlockCastleB6', set_xy: [7, 9] }
+        { x: 16, y: 2, map: 'CharlockCastleB4', set_xy: [9, 4] },
+        { x: 11, y: 2, map: 'CharlockCastleB4', set_xy: [15, 3] },
+        { x: 12, y: 7, map: 'CharlockCastleB6', set_xy: [7, 2] },
+        { x: 7, y: 2, map: 'CharlockCastleB6', set_xy: [7, 9] }
       ],
       music: 'dungeon6',
       layout: [
@@ -3053,10 +3269,10 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 7, y: 2, map: 'CharlockCastleB5', set_xy: [12, 7] },
-                { x: 16, y: 2, map: 'CharlockCastleB6', set_xy: [7, 2] },
-                { x: 7, y: 9, map: 'CharlockCastleB5', set_xy: [7, 2] },
-                { x: 16, y: 9, map: 'CharlockCastleB7' }
+        { x: 7, y: 2, map: 'CharlockCastleB5', set_xy: [12, 7] },
+        { x: 16, y: 2, map: 'CharlockCastleB6', set_xy: [7, 2] },
+        { x: 7, y: 9, map: 'CharlockCastleB5', set_xy: [7, 2] },
+        { x: 16, y: 9, map: 'CharlockCastleB7' }
       ],
       music: 'dungeon7',
       layout: [
@@ -3086,7 +3302,7 @@ module.exports = {
       width: 32,
       height: 32,
       map_links: [
-                { x: 11, y: 13, map: 'CharlockCastleB6', set_xy: [16, 9] }
+        { x: 11, y: 13, map: 'CharlockCastleB6', set_xy: [16, 9] }
       ],
       music: 'dungeon8',
       layout: [
@@ -3124,55 +3340,69 @@ module.exports = {
         25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25
       ],
       doors: [
-                { id: 'charlock_b7_door1', x: 18, y: 13 }
+        { id: 'charlock_b7_door1', x: 18, y: 13 }
       ],
       chests: [
-        { id: 'charlock_b7_chest1',
+        {
+          id: 'charlock_b7_chest1',
           x: 14,
           y: 14,
           take: function () {
             player.add_item('herb')
-          }},
-        { id: 'charlock_b7_chest2',
+          }
+        },
+        {
+          id: 'charlock_b7_chest2',
           x: 13,
           y: 14,
           take: function () {
             player.add_item('cursed_belt')
-          }},
-        { id: 'charlock_b7_chest3',
+          }
+        },
+        {
+          id: 'charlock_b7_chest3',
           x: 12,
           y: 14,
           take: function () {
             player.add_item('wyvern_wings')
-          }},
-        { id: 'charlock_b7_chest4',
+          }
+        },
+        {
+          id: 'charlock_b7_chest4',
           x: 12,
           y: 13,
           take: function () {
             player.add_gold(680)
-          }},
-        { id: 'charlock_b7_chest5',
+          }
+        },
+        {
+          id: 'charlock_b7_chest5',
           x: 12,
           y: 12,
           take: function () {
             player.add_item('herb')
-          }},
-        { id: 'charlock_b7_chest6',
+          }
+        },
+        {
+          id: 'charlock_b7_chest6',
           x: 13,
           y: 13,
           take: function () {
             player.add_item('magic_key')
-          }}
+          }
+        }
       ],
       npcs: [
-        { type: 'dragonlord',
+        {
+          type: 'dragonlord',
           facing: 'down',
           x: 17,
           y: 25,
           talk: function (script) {
             script.text('dragonlord1')
-                    // TODO: menu
-          }}
+            // TODO: menu
+          }
+        }
       ]
     },
 
@@ -3183,7 +3413,7 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 11, y: 11, map: 'World', set_offsets: [73, 0], set_xy: [12, 5] }
+        { x: 11, y: 11, map: 'World', set_offsets: [73, 0], set_xy: [12, 5] }
       ],
       music: 'town',
       layout: [
@@ -3204,13 +3434,15 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       npcs: [
-        { type: 'old_man',
+        {
+          type: 'old_man',
           facing: 'right',
           x: 11,
           y: 6,
           talk: function (script) {
-                    // TODO:
-          }}
+            // TODO:
+          }
+        }
       ]
     },
 
@@ -3221,7 +3453,7 @@ module.exports = {
       width: 25,
       height: 15,
       map_links: [
-                { x: 8, y: 6, map: 'World', set_offsets: [100, 107] }
+        { x: 8, y: 6, map: 'World', set_offsets: [100, 107] }
       ],
       music: 'town',
       layout: [
@@ -3242,13 +3474,15 @@ module.exports = {
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
       ],
       npcs: [
-        { type: 'old_man',
+        {
+          type: 'old_man',
           facing: 'left',
           x: 12,
           y: 7,
           talk: function (script) {
-                    // TODO:
-          }}
+            // TODO:
+          }
+        }
       ]
     }
   }

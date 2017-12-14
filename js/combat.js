@@ -181,8 +181,11 @@ const combat = {
 
   },
 
-  cast_spell: function () {
-
+  cast_spell: function (spell) {
+    if (config.spells[spell] && typeof config.spells[spell].effect === 'function') {
+      const Game = require('./game')
+      config.spells[spell].effect(Game, player)
+    }
   },
 
   player_run: function () {

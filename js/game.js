@@ -196,8 +196,6 @@ const Game = {
 
   draw_npcs: function () {
     var self = this
-    var i
-    var numberOfNpcs
 
     // TODO: refactor this
     function drawNpc (characterType, direction, x, y) {
@@ -304,12 +302,12 @@ const Game = {
     }
 
     if (typeof map.map_ptr.npcs !== 'undefined') {
-      numberOfNpcs = map.map_ptr.npcs.length
+      let numberOfNpcs = map.map_ptr.npcs.length
       // TODO: replace with a visible flag, which checks player.rescued_princess.
       if (map.current_map === 'Tantegel2F' && player.rescued_princess === false) {
         numberOfNpcs--
       }
-      for (i = 0; i < numberOfNpcs; i++) {
+      for (let i = 0; i < numberOfNpcs; i++) {
         drawNpc(
           map.map_ptr.npcs[i].type,
           map.map_ptr.npcs[i].facing,

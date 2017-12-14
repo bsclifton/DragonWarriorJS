@@ -100,13 +100,16 @@ window.display_output = function () {
         'Rescued Princess? = ' + player.rescued_princess + '<br>' +
         '<hr>'
 
-    // Commands
+  // Commands
   if (Game.state === 'combat') {
     getId('fight').onclick = function () {
       Game.combat.player_attack()
     }
     getId('run').onclick = function () {
       Game.combat.player_run()
+    }
+    getId('cast_spell').onclick = function () {
+      // Game.combat.cast_spell()
     }
   } else {
     getId('door').onclick = function () {

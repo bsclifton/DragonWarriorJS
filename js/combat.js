@@ -53,16 +53,16 @@ const combat = {
     let enemyList = []
 
     switch (map.current_zone) {
-      case 0:	 enemyList = [0, 1, 0, 1, 0]; break
-      case 1:	 enemyList = [1, 0, 1, 2, 1]; break
-      case 2:	 enemyList = [0, 3, 2, 3, 1]; break
-      case 3:	 enemyList = [1, 1, 2, 3, 4]; break
-      case 4:	 enemyList = [3, 4, 5, 5, 6]; break
-      case 5:	 enemyList = [3, 4, 5, 6, 11]; break
-      case 6:	 enemyList = [5, 6, 11, 12, 14]; break
-      case 7:	 enemyList = [11, 12, 13, 14, 14]; break
-      case 8:	 enemyList = [13, 15, 18, 18, 25]; break
-      case 9:	 enemyList = [15, 21, 18, 21, 25]; break
+      case 0: enemyList = [0, 1, 0, 1, 0]; break
+      case 1: enemyList = [1, 0, 1, 2, 1]; break
+      case 2: enemyList = [0, 3, 2, 3, 1]; break
+      case 3: enemyList = [1, 1, 2, 3, 4]; break
+      case 4: enemyList = [3, 4, 5, 5, 6]; break
+      case 5: enemyList = [3, 4, 5, 6, 11]; break
+      case 6: enemyList = [5, 6, 11, 12, 14]; break
+      case 7: enemyList = [11, 12, 13, 14, 14]; break
+      case 8: enemyList = [13, 15, 18, 18, 25]; break
+      case 9: enemyList = [15, 21, 18, 21, 25]; break
       case 10: enemyList = [21, 22, 23, 26, 28]; break
       case 11: enemyList = [23, 26, 27, 28, 16]; break
       case 12: enemyList = [26, 27, 28, 29, 31]; break

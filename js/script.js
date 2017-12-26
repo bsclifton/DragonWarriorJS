@@ -1,4 +1,5 @@
 const text = require('./text')
+const player = require('./player')
 
 module.exports = {
   text: function (string) {
@@ -18,5 +19,9 @@ module.exports = {
 
   menu_yes_no: function (string, yesHandler, noHandler) {
     // ..
+  },
+
+  refill_life: function () {
+    player.current_mp = player.max_mp
   }
 }

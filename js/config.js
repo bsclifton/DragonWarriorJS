@@ -3,7 +3,7 @@ module.exports = {
   tile_height: 32,
   sprites: {
     characters: 'assets/sprites/characters-snes.png',
-    enemies: 'assets/sprites/monsters.png',
+    enemies: 'assets/sprites/monsters-snes.png',
     tiles: 'assets/sprites/tiles-snes.png'
   },
   levels: [
@@ -1120,30 +1120,38 @@ module.exports = {
         { id: 'tantegel_door2', x: 29, y: 12 }
       ],
       chests: [
-        { id: 'tantegel_chest1',
+        {
+          id: 'tantegel_chest1',
           x: 12,
           y: 19,
           take: function (game, player) {
             player.add_gold(game.random_number(6, 13))
-          }},
-        { id: 'tantegel_chest2',
+          }
+        },
+        {
+          id: 'tantegel_chest2',
           x: 13,
           y: 20,
           take: function (game, player) {
             player.add_gold(game.random_number(6, 13))
-          }},
-        { id: 'tantegel_chest3',
+          }
+        },
+        {
+          id: 'tantegel_chest3',
           x: 12,
           y: 21,
           take: function (game, player) {
             player.add_gold(game.random_number(6, 13))
-          }},
-        { id: 'tantegel_chest4',
+          }
+        },
+        {
+          id: 'tantegel_chest4',
           x: 14,
           y: 21,
           take: function (game, player) {
             player.add_gold(game.random_number(6, 13))
-          }}
+          }
+        }
       ],
       npcs: [
         // two by stairs
@@ -1256,7 +1264,7 @@ module.exports = {
           y: 32,
           talk: function (script) {
             script.text('tantagel_old_man1')
-            player.current_mp = player.max_mp
+            script.refill_life()
           }
         },
         // front door guards
@@ -1371,14 +1379,14 @@ module.exports = {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
       ],
       doors: [
-                { id: 'tantegel_throne_door1', x: 12, y: 10 }
+        { id: 'tantegel_throne_door1', x: 12, y: 10 }
       ],
       chests: [
         {
           id: 'tantegel_throne_chest1',
           x: 12,
           y: 7,
-          take: function () {
+          take: function (game, player) {
             player.add_gold(120)
           }
         },
@@ -1386,7 +1394,7 @@ module.exports = {
           id: 'tantegel_throne_chest2',
           x: 13,
           y: 7,
-          take: function () {
+          take: function (game, player) {
             player.add_item('torch')
           }
         },
@@ -1394,7 +1402,7 @@ module.exports = {
           id: 'tantegel_throne_chest3',
           x: 14,
           y: 4,
-          take: function () {
+          take: function (game, player) {
             player.add_item('magic_key')
           }
         }
@@ -3153,7 +3161,7 @@ module.exports = {
           id: 'charlock_b2_chest1',
           x: 12,
           y: 7,
-          take: function () {
+          take: function (game, player) {
             player.add_item('erdricks_sword')
           }
         }
@@ -3347,7 +3355,7 @@ module.exports = {
           id: 'charlock_b7_chest1',
           x: 14,
           y: 14,
-          take: function () {
+          take: function (game, player) {
             player.add_item('herb')
           }
         },
@@ -3355,7 +3363,7 @@ module.exports = {
           id: 'charlock_b7_chest2',
           x: 13,
           y: 14,
-          take: function () {
+          take: function (game, player) {
             player.add_item('cursed_belt')
           }
         },
@@ -3363,7 +3371,7 @@ module.exports = {
           id: 'charlock_b7_chest3',
           x: 12,
           y: 14,
-          take: function () {
+          take: function (game, player) {
             player.add_item('wyvern_wings')
           }
         },
@@ -3371,7 +3379,7 @@ module.exports = {
           id: 'charlock_b7_chest4',
           x: 12,
           y: 13,
-          take: function () {
+          take: function (game, player) {
             player.add_gold(680)
           }
         },
@@ -3379,7 +3387,7 @@ module.exports = {
           id: 'charlock_b7_chest5',
           x: 12,
           y: 12,
-          take: function () {
+          take: function (game, player) {
             player.add_item('herb')
           }
         },
@@ -3387,7 +3395,7 @@ module.exports = {
           id: 'charlock_b7_chest6',
           x: 13,
           y: 13,
-          take: function () {
+          take: function (game, player) {
             player.add_item('magic_key')
           }
         }

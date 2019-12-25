@@ -6,7 +6,7 @@
     "lint": "standard",
     "lintfix": "standard --fix",
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [
     "dragon warrior",
@@ -24,10 +24,11 @@
     }
   ],
   "devDependencies": {
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^3.2.0",
     "mocha": "^4.0.1",
     "standard": "^10.0.3",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   }
 }

@@ -14,6 +14,7 @@ module.exports = {
     path: paths.DIST,
     filename: 'app.bundle.js'
   },
+  mode: 'production',
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(paths.ROOT, 'index.html')
